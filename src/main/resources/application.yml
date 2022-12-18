@@ -1,0 +1,12 @@
+# DataSource Config
+spring:
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: never
+  servlet:
+    multipart:
+      max-file-size: 5MB
+mybatis-plus:
+  mapper-locations: classpath:xyz.charlespro.coder.mapper/*.xml
+file-save-path: /home/lighthouse/upload/

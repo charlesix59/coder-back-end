@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "xyz.charlespro.coder.mapper.JobMapper">
+    <resultMap id="job" type="xyz.charlespro.coder.pojo.Job">
+        <id property="id" column="id"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="description" column="description"/>
+        <result property="educationRequirement" column="education_requirement"/>
+        <result property="experienceRequirement" column="experience_requirement"/>
+        <result property="firstCategories" column="first_categories"/>
+        <result property="secondCategories" column="second_categories"/>
+        <result property="name" column="name"/>
+        <result property="recruitNumber" column="recruit_number"/>
+        <result property="tag" column="tag"/>
+        <association property="company" javaType="xyz.charlespro.coder.pojo.Company">
+            <id property="id" column="id"/>
+            <result property="name" column="company_name"/>
+            <result property="legalPerson" column="legal_person"/>
+            <result property="scale" column="scale"/>
+            <result property="type" column="type"/>
+        </association>
+    </resultMap>
+    <insert id="insertJob">
+        insert into job
+        values (#{id},#{creatorId},#{name},#{company.id},#{description},#{recruitNumber},#{experienceRequirement},#{educationRequirement},#{firstCategories},#{secondCategories},#{tag});
+    </insert>
+
+    <update id="updateJob">
+        update job
+        set name = #{name},description = #{description},recruit_number = #{recruitNumber},education_requirement = #{educationRequirement},experience_requirement = #{experienceRequirement},first_categories = #{firstCategories},second_categories = #{secondCategories}
+        where id = #{id};
+    </update>
+
+    <delete id="deleteJob">
+        delete from job where id = #{id};
+    </delete>
+
+    <select id="selectAll" resultMap="job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+        on job.company_id = company.id;
+    </select>
+
+    <select id="getJobById" resultMap="job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+        on job.company_id = company.id
+        where job.id = #{id};
+    </select>
+
+    <select id="getJobByCondition" resultMap="job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+        on job.company_id = company.id
+        <trim prefix="where" suffixOverrides="and" >
+            <if test="name!=null and name!=''">
+                job.name like "%"#{name}"%" and
+            </if>
+            <if test="recruitNumber!=null and recruitNumber!=''">
+                job.recruit_number > #{recruitNumber} and
+            </if>
+            <if test="experienceRequirement != null and experienceRequirement!=''">
+                job.experience_requirement = #{experienceRequirement} and
+            </if>
+            <if test="educationRequirement != null and educationRequirement!=''">
+                job.education_requirement = #{educationRequirement} and
+            </if>
+            <if test="firstCategories != null and firstCategories!=''">
+                job.first_categories = #{firstCategories} and
+            </if>
+            <if test="secondCategories != null and secondCategories!=''">
+                job.second_categories = #{secondCategories} and
+            </if>
+        </trim>
+    </select>
+    <select id="getJobByCreatorId" resultMap="job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+        on job.company_id = company.id
+        where job.creator_id = #{id};
+    </select>
+
+    <select id="getJobsByName" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+        on job.company_id = company.id
+        where job.name like #{name};
+    </select>
+
+    <select id="getJobsByRecruitNumber" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where job.recruit_number > #{number};
+    </select>
+
+    <select id="getJobsByExperienceRequirement" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where job.experience_requirement like #{requirement};
+    </select>
+
+    <select id="getJobsByEducationRequirement" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where job.education_requirement like #{requirement};
+    </select>
+
+    <select id="getJobsByTag" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where tag = #{requirement};
+    </select>
+
+    <select id="getJobsByFirstCategories" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where first_categories = #{categories};
+    </select>
+
+    <select id="getJobsBySecondCategories" resultType="xyz.charlespro.coder.pojo.Job">
+        select job.*,company.name as company_name,company.scale,company.type,company.legal_person
+        from job left join company
+                           on job.company_id = company.id
+        where second_categories = #{categories};
+    </select>
+
+
+</mapper>

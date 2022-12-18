@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "mybatis-plus.mapper-locations.resources",
+      "type": "java.lang.String",
+      "description": "Description for mybatis-plus.mapper-locations.resources."
+    },
+    {
+      "name": "mybatis-plus.mapper-locations.classpath",
+      "type": "java.lang.String",
+      "description": "Description for mybatis-plus.mapper-locations.classpath."
+    },
+    {
+      "name": "file-save-path",
+      "type": "java.lang.String",
+      "description": "file save path."
+    }
+  ] }
